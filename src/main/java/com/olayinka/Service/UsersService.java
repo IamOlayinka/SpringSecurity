@@ -15,8 +15,11 @@ public class UsersService  {
 
     @Autowired
     private UserRepo userRepo;
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
+    public UsersService (JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
     @Autowired
     AuthenticationManager authManager;
 

@@ -11,10 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsersService {
+public class UsersService  {
 
     @Autowired
     private UserRepo userRepo;
+    private JwtService jwtService;
 
     @Autowired
     AuthenticationManager authManager;
@@ -34,7 +35,7 @@ public class UsersService {
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
         if(authentication.isAuthenticated()){
-            return "success";
+            return jwtService.generateToken(user.getUsername());
         }
         else
             return "fail";

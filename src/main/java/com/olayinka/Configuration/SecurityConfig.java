@@ -1,6 +1,7 @@
 package com.olayinka.Configuration;
 
 
+import com.olayinka.Service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
 
     @Bean  //this bypass the initial security
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{

@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity  // this bypass the initiial security
@@ -31,21 +32,29 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired  // Add this annotation
+    private final JwtFilter jwtFilter;
+
+    public SecurityConfig(UserDetailsService userDetailsService, JwtFilter jwtFilter) {
+        this.userDetailsService = userDetailsService;
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean  //this bypass the initial security
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-
-       http.csrf(AbstractHttpConfigurer::disable) //disabling the websecurity crsf token
-               .authorizeHttpRequests(request -> request   //creating authentication using username and password
-               .requestMatchers("register","login") //Setting permission for this two api
-               .permitAll()//permitting the two api to proceed without username and password verification
-               .anyRequest() //Asking for permission for all other request
-               .authenticated()); //Authenticating all other request
+        return http
+                .csrf(AbstractHttpConfigurer::disable) //disabling the websecurity crsf token
+                .authorizeHttpRequests(request -> request   //creating authentication using username and password
+                        .requestMatchers("register","login") //Setting permission for this two api
+                        .permitAll()//permitting the two api to proceed without username and password verification
+                        .anyRequest().authenticated())//Authenticating all other request
 
         //http.formLogin(Customizer.withDefaults()); //Enabling default form login
-       http.httpBasic(Customizer.withDefaults()); //Enabling login from other user i.e postman
-       http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); //This disable the csrf setting from requesting for csrf
-        return http.build();
+                .httpBasic(Customizer.withDefaults()) //Enabling login from other user i.e postman
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)//This disable the csrf setting from requesting for csrf
+                .build();
+
     }
 
     //hardCoding username and password

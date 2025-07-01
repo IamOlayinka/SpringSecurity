@@ -1,8 +1,10 @@
 package com.olayinka.Service;
 
 
+import com.olayinka.DTOs.UserLoginDTO;
 import com.olayinka.Model.Users;
 import com.olayinka.Repository.UserRepo;
+import com.olayinka.Validation.UserValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,22 +25,24 @@ public class UsersService  {
     @Autowired
     AuthenticationManager authManager;
 
-  //Creating object of bcrypts for password hashing
-  //Passing a strength 0f 12
+    //Creating object of bcrypts for password hashing
+    //Passing a strength 0f 12
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
     public Users registerUser(Users user){
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepo.save(user);
-        return user;
+        Users newUser = UserValidation.validateUser(user);
+        newUser.setPassword(encoder.encode(user.getPassword()));
+        userRepo.save(newUser);
+        return newUser;
     }
 
-    public String verify(Users user) {
+    public String verify(UserLoginDTO user) {
+        System.out.println("This is user entered password" + user.getPassword());
         Authentication authentication =
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+                authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
         if(authentication.isAuthenticated()){
-            return jwtService.generateToken(user.getUsername());
+            return jwtService.generateToken(user.getEmail());
         }
         else
             return "fail";

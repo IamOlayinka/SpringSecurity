@@ -10,23 +10,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
-@SpringBootApplication
-public class SpringBootJdbcTemplateSqlServerApplication implements CommandLineRunner {
-
-     @Autowired
-     private JdbcTemplate jdbcTemplate;
-
-     @Override
-    public void run(String... args) throws Exception {
-      String query = "Select * from users";
-
-        List<Users> users = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Users.class ));
-        users.forEach(System.out::println);
-
-
-    }
-
-
-}
+//@SpringBootApplication
+//public class SpringBootJdbcTemplateSqlServerApplication implements CommandLineRunner {
+//
+//     @Autowired
+//     private JdbcTemplate jdbcTemplate;
+//
+//     @Override
+//    public void run(String... args) throws Exception {
+//      String query = "Select * from users";
+//
+//        List<Users> users = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Users.class ));
+//        users.forEach(System.out::println);
+//
+//
+//    }
+//
+//
+//}
 
 

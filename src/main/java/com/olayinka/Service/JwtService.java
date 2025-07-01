@@ -32,15 +32,15 @@ public class JwtService {
         }
 
     }
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         Map<String, Object> claim = new HashMap<>();
 
         return Jwts.builder()
                 .claims()
                 .add(claim)
-                .subject(username)
+                .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
+                .expiration(new Date(System.currentTimeMillis() + 24L * 60 * 60 * 1000))
                 .and()
                 .signWith(getKey())
                 .compact();

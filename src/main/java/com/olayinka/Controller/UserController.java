@@ -1,6 +1,7 @@
 package com.olayinka.Controller;
 
 
+import com.olayinka.DTOs.UserLoginDTO;
 import com.olayinka.Model.Users;
 import com.olayinka.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,14 @@ public class UserController {
       return user;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody Users user){
 
+
+    @PostMapping("/login")
+    public String login (@RequestBody UserLoginDTO user) {
+
+        System.out.println(user);
         return usersService.verify(user);
-    }
+
+    };
+
 }

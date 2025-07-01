@@ -1,9 +1,12 @@
 package com.olayinka.DTOs;
 
+import jakarta.persistence.Entity;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class ProductDTO {
+
     private Integer productId;
     private String name;
     private String description;

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class MyUserDetailService implements UserDetailsService {
@@ -16,8 +18,12 @@ public class MyUserDetailService implements UserDetailsService {
     private UserRepo repo;
 
     @Override  //This fetch the data
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = repo.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println(email);
+        Users user = repo.findByEmail(email);
+        System.out.println("calling the login api");
+        System.out.println("Email: " + email);
+        System.out.println("Password (DB): " + user.getPassword()); // hashed
 
 
         if(user == null){

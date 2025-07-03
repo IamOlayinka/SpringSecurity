@@ -1,5 +1,6 @@
 package com.olayinka.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -7,11 +8,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productId")
+
     private Integer productId;
     private String name;
     private String description;
@@ -19,6 +22,8 @@ public class Product {
     private Integer quantityInStock;
     private String brand;
     private String imageUrl;
+    @Column(precision = 2, scale = 1)
+    private BigDecimal rating;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -89,5 +94,14 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+    public BigDecimal getRating() {
+        return rating;
+    }
+
+    public void setRating(BigDecimal rating) {
+        this.rating = rating;
+    }
+
+
 }
 

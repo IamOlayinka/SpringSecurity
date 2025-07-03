@@ -14,7 +14,10 @@ public class ProductDTO {
     private Integer quantityInStock;
     private String brand;
     private String imageUrl;
+    private BigDecimal rating;
+
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Integer getProductId() {
         return productId;
@@ -88,7 +91,11 @@ public class ProductDTO {
         this.updatedAt = updatedAt;
     }
 
-    private LocalDateTime updatedAt;
+    public BigDecimal getRating() {
+        return rating;
+    }
 
-
+    public void setRating(BigDecimal rating) {
+        this.rating = rating;
+    }
 }

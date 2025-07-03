@@ -4,6 +4,7 @@ package com.olayinka.Service;
 import com.olayinka.DTOs.ProductDTO;
 import com.olayinka.Model.Product;
 import com.olayinka.Repository.ProductRepo;
+import com.olayinka.Validation.productValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class ProductService {
     }
 
     public Product getProductById(int id) {
+        System.out.println("From service" + id);
+
         return productrepo.getReferenceById(id);
     }
 
@@ -39,13 +42,40 @@ public class ProductService {
         }
 
         Product entity = new Product();
+        // set properties from DTO
         entity.setName(productName);
         entity.setBrand(product.getBrand());
         entity.setDescription(product.getDescription());
         entity.setQuantityInStock(product.getQuantityInStock());
         entity.setImageUrl(product.getImageUrl());
         entity.setPrice(product.getPrice());
-        // set other properties from DTO
+        entity.setRating(product.getRating());
         productrepo.save(entity);
+    }
+
+    public void updateProduct(ProductDTO productDTO) {
+
+        ProductDTO product = productValidation.validateProduct(productDTO);
+
+        if (productrepo.existsByNameIgnoreCase(product.getName())) {
+            throw new IllegalArgumentException("Product already exists");
+        }
+
+        Product entity = new Product();
+        // set properties from DTO
+        entity.setName(product.getName());
+        entity.setBrand(product.getBrand());
+        entity.setDescription(product.getDescription());
+        entity.setQuantityInStock(product.getQuantityInStock());
+        entity.setImageUrl(product.getImageUrl());
+        entity.setPrice(product.getPrice());
+        entity.setRating(product.getRating());
+        productrepo.save(entity);
+
+
+    }
+
+    public void deleteProduct(int id) {
+        productrepo.deleteById(id);
     }
 }

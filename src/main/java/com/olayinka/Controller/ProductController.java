@@ -27,6 +27,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id){
         Product product = productService.getProductById(id);
+        System.out.println("From controller" + id);
         return ResponseEntity.ok(product);
 
     }
@@ -36,4 +37,14 @@ public class ProductController {
         productService.addProduct(product);
     }
 
+
+    @PostMapping("/update-product")
+    public void updateProduct(@RequestBody ProductDTO product){
+        productService.updateProduct(product);
+    }
+
+    @GetMapping("/delete-product")
+    public void deleteProduct(@PathVariable int id){
+        productService.deleteProduct(id);
+    }
 }

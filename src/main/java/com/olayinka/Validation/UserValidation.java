@@ -1,5 +1,6 @@
 package com.olayinka.Validation;
 
+import com.olayinka.DTOs.ProductDTO;
 import com.olayinka.Model.Users;
 
 public class UserValidation {
@@ -9,6 +10,7 @@ public class UserValidation {
 
 
     public static Users validateUser(Users user) {
+
 
         if (user.getFirstname() == null || user.getFirstname().length() < FIRSTNAME_MIN_LENGTH) {
             throw new IllegalArgumentException("firstname cannot be null or less than 2 in length");
@@ -32,4 +34,6 @@ public class UserValidation {
 
         return user;
     }
+
+
 }

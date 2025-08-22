@@ -6,7 +6,6 @@ import com.olayinka.Model.Product;
 import com.olayinka.Repository.ProductRepo;
 import com.olayinka.Validation.productValidation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,9 +17,8 @@ public class ProductService {
     @Autowired
     private ProductRepo productrepo;
 
-    public List<Product>getAllproducts() {
-        List<Product> products =  productrepo.findAll();
-        return products;
+    public List<Product> getProducts() {
+        return productrepo.findAll();
     }
 
     public Product getProductById(int id) {
